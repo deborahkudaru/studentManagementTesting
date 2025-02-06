@@ -153,13 +153,21 @@ describe("StudentManagement", function () {
       const studentClass = "js1";
       const gender = 0;
 
-      await studentManagementContract.registerStudent(name, age, studentClass, gender)
+      await studentManagementContract.registerStudent(
+        name,
+        age,
+        studentClass,
+        gender
+      );
 
       const studentId = await studentManagementContract.studentId();
 
-      const getStudentById = await studentManagementContract.getStudent(studentId);
 
-      // await expect(getStudentById).to.eq();
+      await studentManagementContract.getStudent(
+        studentId
+      );
+
+      await expect(studentId).to.eq(1);
     });
 
     it("Should test for all students registered", async function () {
@@ -176,9 +184,15 @@ describe("StudentManagement", function () {
       const studentClass1 = "js1";
       const gender1 = 1;
 
+      const register = await studentManagementContract.registerStudent(name, age, studentClass, gender);
+      const register1 = await studentManagementContract.registerStudent(name1, age1, studentClass1, gender1);
 
+      const registeredStudents = [register, register1];
       
+      const getAllStudents = await studentManagementContract.getStudents();
       
+       expect(await getAllStudents).to.eq(registeredStudents);
+
     });
   });
 });
